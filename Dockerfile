@@ -1,10 +1,10 @@
-# Use a lightweight Python image
+# Use Python slim image
 FROM python:3.10-slim
 
-# Set work directory
+# Set working directory
 WORKDIR /app
 
-# Install system dependencies (needed for psycopg2, Pillow, etc.)
+# Install system dependencies for psycopg2 and Pillow
 RUN apt-get update && apt-get install -y \
     gcc \
     libpq-dev \
@@ -13,13 +13,11 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements
+# Copy requirements and install
 COPY requirements.txt .
-
-# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the app
+# Copy the Flask app
 COPY . .
 
 # Expose port
